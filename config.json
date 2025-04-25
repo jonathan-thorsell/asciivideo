@@ -1,0 +1,8 @@
+{
+    "video_path": "C:/code/random/asciivideo/videos",
+    "downscale_factor": 5,
+    "frame_rate": 12,
+    "time_it": true,
+    "print_frame_progression": true,
+    "size": 32
+}
