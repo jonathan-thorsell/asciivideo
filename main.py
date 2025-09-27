@@ -1,10 +1,13 @@
-from PIL import Image
+import math
 import os
 import json
+import shutil
 import time
 
 from modules.load import video_is_loaded, get_frame, get_frame_count, load_ascii
-from modules.render import render
+from modules.render import render, oldrender
+import threading
+import subprocess
 
 #### OPTIONS ####
 with open('config.json') as r:
@@ -12,7 +15,7 @@ with open('config.json') as r:
 
 downsize_factor = config["downscale_factor"]
 video = config["video_path"]
-fps = int(1750 / (config["frame_rate"]*(4/3)))
+fps = config["frame_rate"]
 size = config["size"]
 
 timeit = config["time_it"]
@@ -36,14 +39,30 @@ first_frame = get_frame("0")
 first_frame_height = first_frame.count("\n")
 first_frame_width = first_frame.index("\n")
 os.system("cls")
-for i in range(first_frame_height):
-    for n in range(first_frame_width):
-        print("@", end="")
+for i in range(math.floor(config["padding"] / 2)):
     print()
+for i in range(first_frame_height):
+    result = ""
+    for n in range(first_frame_width):
+        result += "@"
+    print(result.center(shutil.get_terminal_size().columns))
+for i in range(math.ceil(config["padding"] / 2)):
+    print()
+
 input()
 # RENDER THE VIDEO
 start_time = time.time()
-render(fps)
+def play_audio():
+    # Use ffplay to play audio from the video file
+    # -nodisp disables video display, -autoexit closes when done
+    subprocess.run([
+        "ffplay", "-nodisp", "-autoexit", "-loglevel", "quiet", video
+    ])
+
+# Start audio playback in a separate thread
+audio_thread = threading.Thread(target=play_audio, daemon=True)
+audio_thread.start()
+oldrender(fps, config["padding"])
 if timeit:
     os.system("cls")
     for n in range(int(first_frame_height/2)):

@@ -1,7 +1,8 @@
 {
-    "video_path": "C:/code/random/asciivideo/videos",
+    "video_path": "C:/Users/erik/Documents/GitHub/asciivideo/videos",
     "downscale_factor": 5,
-    "frame_rate": 12,
+    "frame_rate": 30,
+    "padding": 8,
     "time_it": true,
     "print_frame_progression": true,
     "size": 32

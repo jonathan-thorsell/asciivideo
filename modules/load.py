@@ -9,7 +9,6 @@ import math
 
 frame_file = "frames.json"
 characters = " .:-=+H%"
-#characters = " ░▒▓"
 
 
 def video_is_loaded():
@@ -67,7 +66,7 @@ def load_ascii(video, print_frame_progression, size):
             elapsed_time = time.time() - start_time
             estimated_total_time = (elapsed_time / frame_count) * total_frames
             estimated_time_remaining = estimated_total_time - elapsed_time
-            sys.stdout.write(f"Frame {frame_count}/{total_frames} processed | {math.ceil(frame_count / elapsed_time)} FPS | Estimated time remaining: {math.ceil(estimated_time_remaining)} seconds\n")
+            sys.stdout.write(f"Frame {frame_count}/{total_frames} processed | {math.ceil(frame_count / elapsed_time)} FPS | Estimated time remaining: {math.ceil(estimated_time_remaining)} seconds\r")
 
     cap.release()
     os.system("cls" if os.name == "nt" else "clear")
@@ -84,11 +83,11 @@ def runtime_load(fps):
     with open("frames.json") as r:
         frames = json.load(r)
 
-    new_frames = {}
-    count = 0
-    for i in range(len(frames.keys())):
-        for n in range(fps):
-            new_frames[str(count)] = frames[f"{i}"]
-            count += 1
+    # new_frames = {}
+    # count = 0
+    # for i in range(len(frames.keys())):
+    #     for n in range(fps):
+    #         new_frames[str(count)] = frames[f"{i}"]
+    #         count += 1
     
-    return new_frames
+    return frames
